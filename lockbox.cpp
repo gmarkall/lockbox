@@ -1,5 +1,9 @@
 // include the library code:
-#include <LiquidCrystal.h>
+#include "LiquidCrystal.h"
+#include "WMath.h"
+#include "wiring.h"
+#include "wiring_constants.h"
+#include "wiring_digital.h"
 
 const int buttonPin = 6;
 
