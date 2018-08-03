@@ -1,9 +1,6 @@
 // include the library code:
+#include "Arduino.h"
 #include "LiquidCrystal.h"
-#include "WMath.h"
-#include "wiring.h"
-#include "wiring_constants.h"
-#include "wiring_digital.h"
 
 const int buttonPin = 6;
 
@@ -21,8 +18,11 @@ void setup() {
   // Print a message to the LCD.
   lcd.print("Stack Erase demo");
 
-
+  Serial.begin(9600);
 }
+
+int c = 0;
+uint32_t K = 0;
 
 extern "C"
 void loop() {
@@ -31,7 +31,14 @@ void loop() {
   lcd.print("K: ");
   if (state == LOW) {
     randomSeed(millis());
-    lcd.print(random()); 
+    K = random();
+    lcd.print(K);
   }
+
+  if (c % 100 == 0) {
+    Serial.println(K);
+  }
+
+  c += 1;
   delay(1);
 }

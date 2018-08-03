@@ -19,7 +19,7 @@ all: lockbox.exe
 
 
 clean:
-	rm -f *.o lockbox.exe
+	rm -f *.o lockbox.exe lockbox.map
 
 %.o: %.c
 	${CC} ${CPPFLAGS} ${CCFLAGS} $<
