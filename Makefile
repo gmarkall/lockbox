@@ -11,7 +11,7 @@ CCFLAGS = -c -O2 -march=rv32imac -fpeel-loops -ffreestanding -g \
 
 CXXFLAGS = ${CCFLAGS} -fno-rtti -fno-exceptions
 
-LDFLAGS = -T hifive1.lds -nostartfiles -Wl,-N -Wl,--gc-sections -nostdlib -Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=sbrk
+LDFLAGS = -T hifive1.ld -nostartfiles -Wl,-N -Wl,--gc-sections -nostdlib -Wl,--wrap=malloc -Wl,--wrap=free -Wl,--wrap=sbrk -Wl,-Map=lockbox.map
 
 OPENOCD_ARGS = -f /home/sarah/SECURE/freedom-e-sdk/bsp/env/freedom-e300-hifive1/openocd.cfg
 
