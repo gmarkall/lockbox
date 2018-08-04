@@ -9,13 +9,20 @@ const int buttonPin = 6;
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-uint32_t datahex(uint8_t* string, size_t slength) {
+// For parsing user input back into a value.
+int conversion_error;
+
+uint32_t datahex(const char* string, size_t slength) {
+
+    conversion_error = 0;
 
     // must be 8 chars, null pointers bad news.
-    if(string == NULL || slength != 8) 
-       return NULL;
+    if(string == NULL || slength != 8) {
+      conversion_error = 1;
+      return 0;
+    }
 
-    uint32_t res = 0xdeadbeef;
+    uint32_t res = 0;
 
     size_t index = 0;
     while (index < slength) {
@@ -23,22 +30,26 @@ uint32_t datahex(uint8_t* string, size_t slength) {
         int value = 0;
         if(c >= '0' && c <= '9')
           value = (c - '0');
-        else if (c >= 'A' && c <= 'F') 
+        else if (c >= 'A' && c <= 'F')
           value = (10 + (c - 'A'));
         else if (c >= 'a' && c <= 'f')
           value = (10 + (c - 'a'));
         else {
           // non-hex digit
-          return NULL;
+          conversion_error = 1;
+          return 0;
         }
 
-        res = res & (value << ((7 - index) * 8));
+        uint32_t shift =  ((7 - index) * 4);
+        uint32_t addition = value << shift;
+        res = res | addition;
 
         index++;
     }
 
-    return data;
+    return res;
 }
+
 
 extern "C"
 void setup() {
@@ -56,9 +67,18 @@ int c = 0;
 uint32_t K = 0;
 bool locked = true;
 
-bool correctInput(uint8_t* recvBuf __attribute__((unused)))
+bool correctInput(const char* recvBuf, size_t buflen)
 {
-  return true;
+  uint32_t K_try = datahex(recvBuf, buflen);
+  Serial.print("conv error ");
+  Serial.print(conversion_error);
+  Serial.print("strlen");
+  Serial.print(buflen);
+  Serial.print("K try ");
+  Serial.print(K_try);
+  if (conversion_error)
+    return false;
+  return K == K_try;
 }
 
 void doSerial() {
@@ -66,7 +86,7 @@ void doSerial() {
   //  Serial.println(K, HEX);
   //}
 
-  uint8_t recvBuf[9]; // Eight key chars plus terminator. Should be enough for anybody.
+  char recvBuf[9]; // Eight key chars plus terminator. Should be enough for anybody.
   uint32_t bufLoc = 0; // Where are we writing to in the buffer?
 
   Serial.print("Enter code: ");
@@ -76,8 +96,7 @@ void doSerial() {
       if (recvBuf[bufLoc] == '\n') {
         Serial.write(recvBuf, bufLoc);
         Serial.write("\n");
-        bufLoc = 0;
-        if (correctInput(recvBuf)) {
+        if (correctInput(recvBuf, bufLoc)) {
           locked = false;
           Serial.print("Unlocking...\n");
           lcd.setCursor(0, 0);
@@ -85,6 +104,7 @@ void doSerial() {
         } else {
           Serial.print("Enter code: ");
         }
+        bufLoc = 0;
       } else {
         bufLoc++;
       }
