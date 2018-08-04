@@ -33,3 +33,9 @@ lockbox.exe: lockbox.o LiquidCrystal.o core.a
 upload: lockbox.exe
 	$(OPENOCD) $(OPENOCD_ARGS) & \
             $(GDB) lockbox.exe --batch -ex "set remotetimeout 240" -ex "target extended-remote localhost:3333" -ex "monitor reset halt" -ex "monitor flash protect 0 64 last off" -ex "load" -ex "monitor resume" -ex "monitor shutdown" -ex "quit" && echo Done
+
+run_openocd:
+	$(OPENOCD) $(OPENOCD_ARGS)
+
+run_gdb:
+	$(GDB) lockbox.exe -ex "set remotetimeout 240" -ex "target extended-remote localhost:3333"
