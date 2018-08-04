@@ -70,11 +70,12 @@ bool locked = true;
 bool correctInput(const char* recvBuf, size_t buflen)
 {
   uint32_t K_try = datahex(recvBuf, buflen);
+  uint32_t K_correct = K;
 
   if (conversion_error)
     return false;
 
-  return K == K_try;
+  return K_correct == K_try;
 }
 
 void doSerial() {
