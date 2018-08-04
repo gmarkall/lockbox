@@ -70,22 +70,14 @@ bool locked = true;
 bool correctInput(const char* recvBuf, size_t buflen)
 {
   uint32_t K_try = datahex(recvBuf, buflen);
-  Serial.print("conv error ");
-  Serial.print(conversion_error);
-  Serial.print("strlen");
-  Serial.print(buflen);
-  Serial.print("K try ");
-  Serial.print(K_try);
+
   if (conversion_error)
     return false;
+
   return K == K_try;
 }
 
 void doSerial() {
-  //if (c % 100 == 0) {
-  //  Serial.println(K, HEX);
-  //}
-
   char recvBuf[9]; // Eight key chars plus terminator. Should be enough for anybody.
   uint32_t bufLoc = 0; // Where are we writing to in the buffer?
 
@@ -102,6 +94,7 @@ void doSerial() {
           lcd.setCursor(0, 0);
           lcd.print("UNLOCKED");
         } else {
+          Serial.println("Incorrect code...");
           Serial.print("Enter code: ");
         }
         bufLoc = 0;
@@ -114,27 +107,17 @@ void doSerial() {
 
 extern "C"
 void loop() {
-  lcd.setCursor(0, 0);
-  if (K) {
-    if (locked)
-      lcd.print("LOCKED          ");
-    else
-      lcd.print("UNLOCKED        ");
+  unsigned int state = digitalRead(buttonPin);
+  lcd.setCursor(0, 1);
+  lcd.print("K: ");
+  if (state == LOW) {
+    randomSeed(millis());
+    K = random();
+    lcd.print(K, HEX);
 
-
+    lcd.setCursor(0, 0);
+    lcd.print("LOCKED          ");
     doSerial();
-  } else {
-    unsigned int state = digitalRead(buttonPin);
-    lcd.setCursor(0, 1);
-    lcd.print("K: ");
-    if (state == LOW) {
-      randomSeed(millis());
-      K = random();
-      lcd.print(K, HEX);
-    }
   }
-
-  c += 1;
-  delay(1);
 }
 
