@@ -50,7 +50,7 @@ digits, this provides enough space for normal operation. However, the loop that
 places characters into this buffer will carry on doing so indefinitely, as long
 as a newline is not received.
 
-Therefore, if more than eight characters are received, the input will start
+Therefore, if more than nine characters are received, the input will start
 overwriting other locations on the stack. This (hopefully!) provides an
 exploitable vulnerability, in that executable code can be stored into the buffer
 and the program counter returned to the buffer location by overwriting the
