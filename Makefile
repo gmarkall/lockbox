@@ -6,7 +6,7 @@ GDB = /home/sarah/SECURE/freedom-e-sdk/work/build/riscv-gnu-toolchain/riscv64-un
 
 CPPFLAGS = -Iinclude -DF_CPU=16000000LL -DFREEDOM_E300_HIFIVE1
 
-CCFLAGS = -c -O2 -march=rv32imac -fpeel-loops -ffreestanding -g \
+CCFLAGS = -c -O0 -march=rv32imac -fpeel-loops -ffreestanding -g \
           -ffunction-sections -fdata-sections -Wall -Werror -Wextra
 
 CXXFLAGS = ${CCFLAGS} -fno-rtti -fno-exceptions
