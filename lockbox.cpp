@@ -67,6 +67,8 @@ int c = 0;
 uint32_t K = 0;
 bool locked = true;
 
+// Uncomment to protect function with stack erase
+//__attribute__((stack_erase))
 bool correctInput(const char* recvBuf, size_t buflen)
 {
   uint32_t K_try = datahex(recvBuf, buflen);
