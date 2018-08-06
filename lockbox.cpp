@@ -80,47 +80,51 @@ bool correctInput(const char* recvBuf, size_t buflen)
   return K_correct == K_try;
 }
 
-void doSerial() {
-  char recvBuf[9]; // Eight key chars plus terminator. Should be enough for anybody.
-  uint32_t bufLoc = 0; // Where are we writing to in the buffer?
-
-  Serial.print("Enter code: ");
+char * readSerialBuf() {
+  char buf[8];
+  uint32_t bufLoc = 0;
   while (true) {
     if (Serial.available()) {
-      recvBuf[bufLoc] = Serial.read();
-      if (recvBuf[bufLoc] == '\n') {
-        Serial.write(recvBuf, bufLoc);
-        Serial.write("\n");
-        if (correctInput(recvBuf, bufLoc)) {
-          locked = false;
-          Serial.print("Unlocking...\n");
-          lcd.setCursor(0, 0);
-          lcd.print("UNLOCKED");
-        } else {
-          Serial.println("Incorrect code...");
-          Serial.print("Enter code: ");
-        }
-        bufLoc = 0;
-      } else {
-        bufLoc++;
+      lcd.setCursor(10,0);
+      lcd.print(bufLoc);
+      buf[bufLoc] = Serial.read();
+      if (buf[bufLoc] == '\n') {
+        Serial.write(buf, bufLoc+1);
+        char * retBuf = (char *) malloc(8*sizeof(char));
+        strncpy(retBuf, buf, (8*sizeof(char)));
+        return retBuf;
       }
+      bufLoc++;
     }
+  }
+}
+
+void doSerial() {
+  Serial.print("Enter code: ");
+  char * recvBuf = readSerialBuf();
+  if (correctInput(recvBuf, 8)) {
+    locked = false;
+    Serial.print("Unlocking...\n");
+    lcd.setCursor(0, 0);
+    lcd.print("UNLOCKED");
+  } else {
+    Serial.println("Incorrect code...");
+    return;
   }
 }
 
 extern "C"
 void loop() {
   unsigned int state = digitalRead(buttonPin);
-  lcd.setCursor(0, 1);
-  lcd.print("K: ");
   if (state == LOW) {
     randomSeed(millis());
     K = random();
+    lcd.setCursor(0, 1);
     lcd.print(K, HEX);
 
     lcd.setCursor(0, 0);
     lcd.print("LOCKED          ");
-    doSerial();
+    while (true) { doSerial(); }
   }
 }
 
