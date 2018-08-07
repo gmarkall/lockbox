@@ -39,3 +39,4 @@ run_openocd:
 
 run_gdb:
 	$(GDB) lockbox.exe -ex "set remotetimeout 240" -ex "target extended-remote localhost:3333"
+

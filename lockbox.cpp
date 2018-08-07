@@ -99,6 +99,7 @@ char * readSerialBuf() {
   }
 }
 
+
 void doSerial() {
   Serial.print("Enter code: ");
   char * recvBuf = readSerialBuf();
@@ -106,7 +107,7 @@ void doSerial() {
     locked = false;
     Serial.print("Unlocking...\n");
     lcd.setCursor(0, 0);
-    lcd.print("UNLOCKED");
+    lcd.print("UNLOCKED             ");
   } else {
     Serial.println("Incorrect code...");
     return;
@@ -118,7 +119,7 @@ void loop() {
   unsigned int state = digitalRead(buttonPin);
   if (state == LOW) {
     randomSeed(millis());
-    K = random();
+    K = random(); //K has type uint32_t
     lcd.setCursor(0, 1);
     lcd.print(K, HEX);
 

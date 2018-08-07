@@ -37,6 +37,7 @@ class Print
 {
   private:
     int write_error;
+	//__attribute__((stack_erase))
     size_t printNumber(unsigned long, uint8_t);
     size_t printFloat(double, uint8_t);
   protected:

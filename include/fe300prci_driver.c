@@ -3,8 +3,7 @@
 #include "platform.h"
 
 #ifdef PRCI_BASE_ADDR
-//#include "fe300prci/fe300prci_driver.h"
-#include "../include/fe300prci_driver.h"
+#include "fe300prci/fe300prci_driver.h"
 #include <unistd.h>
 
 #define rdmcycle(x)  {				       \

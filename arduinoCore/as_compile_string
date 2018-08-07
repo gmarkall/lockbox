@@ -1,0 +1,9 @@
+riscv32-unknown-elf-gcc 
+-c 
+-march=rv32imac 
+-I../include 
+-g 
+-DARDUINO=10805 
+-DF_CPU=16000000LL 
+-DFREEDOM_E300_HIFIVE1  
+

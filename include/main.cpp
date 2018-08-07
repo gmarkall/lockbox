@@ -23,8 +23,7 @@
 #define ARDUINO_MAIN
 #include "Arduino.h"
 #include "encoding.h"
-//#include "fe300prci/fe300prci_driver.h"
-#include "../include/fe300prci_driver.h"
+#include "fe300prci/fe300prci_driver.h"
 
 extern uint32_t trap_entry;
 
