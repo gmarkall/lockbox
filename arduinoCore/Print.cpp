@@ -191,7 +191,7 @@ size_t Print::println(const Printable& x)
 }
 
 // Private Methods /////////////////////////////////////////////////////////////
-//__attribute__((stack_erase))
+__attribute__((stack_erase))
 size_t Print::printNumber(unsigned long n, uint8_t base) {
   char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.
   char *str = &buf[sizeof(buf) - 1];

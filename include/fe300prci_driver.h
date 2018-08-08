@@ -3,7 +3,7 @@
 #ifndef _FE300PRCI_DRIVER_H_
 #define _FE300PRCI_DRIVER_H_
 
-//__BEGIN_DECLS
+__BEGIN_DECLS
 
 #include <unistd.h>
 
@@ -73,7 +73,7 @@ void PRCI_use_default_clocks();
 
 uint32_t PRCI_set_hfrosctrim_for_f_cpu(uint32_t f_cpu, PRCI_freq_target target);
 
-//__END_DECLS
+__END_DECLS
 
 #endif
   

@@ -19,7 +19,7 @@ DOT_O_FILENAMES = entry.o init.o start.o WInterrupts.o hooks.o itoa.o malloc.o s
 all: core.a
 
 clean:
-	rm -f *.o ../core.a 
+	rm -f *.o ../core.a && cp HardwareSerialo HardwareSerial.o 
 
 %.o: %.c
 	${CC} ${CCFLAGS} $<

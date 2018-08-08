@@ -23,8 +23,8 @@
 #define ARDUINO_MAIN
 #include "Arduino.h"
 #include "encoding.h"
-//#include "fe300prci/fe300prci_driver.h"
-#include "../include/fe300prci_driver.h"
+#include "fe300prci/fe300prci_driver.h"
+//#include "fe300prci_driver.h"
 
 extern uint32_t trap_entry;
 
@@ -74,7 +74,7 @@ static void freedom_e300_clock_setup () {
     
   }  else if (F_CPU == 16000000UL) {
     
-    PRCI_use_hfxosc(1);
+	PRCI_use_hfxosc((uint32_t) 1 );
  
   } else {
 
