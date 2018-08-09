@@ -119,8 +119,8 @@ void loop() {
   unsigned int state = digitalRead(buttonPin);
   if (state == LOW) {
     randomSeed(millis());
-    K = random(); //K has type uint32_t
-    lcd.setCursor(0, 1);
+    K = random(); 
+	lcd.setCursor(0, 1);
     lcd.print(K, HEX);
 
     lcd.setCursor(0, 0);
