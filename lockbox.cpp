@@ -81,8 +81,8 @@ bool correctInput(const char* recvBuf, size_t buflen)
 }
 
 char * readSerialBuf() {
+  uint8_t bufLoc = 0;
   char buf[8];
-  uint32_t bufLoc = 0;
   while (true) {
     if (Serial.available()) {
       lcd.setCursor(10,0);

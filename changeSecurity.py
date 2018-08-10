@@ -11,7 +11,7 @@ while choice not in [1, 2]:
 print(security[choice])
 
 if choice == 1: # use the core.a file with the stack erase attribute
-	system("cd ./arduinoCore/ && make clean && make && cd .. && make clean && make upload")
+	system("cd ./arduinoCore/ && make clean && make && cd .. && cp ./lockboxes/secureLockbox.cpp lockbox.cpp && make clean && make upload")
 else: # use the core.a file without the stack erase attribute 
-	system("make clean && cp ./insecureCore/core.a ./core.a && make upload")
+	system("make clean && cp ./insecureCore/core.a ./core.a && cp ./lockboxes/insecureLockbox.cpp lockbox.cpp && make upload")
 
